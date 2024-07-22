@@ -1,5 +1,5 @@
-"use client";
 /* eslint-disable @next/next/no-img-element */
+"use client";
 import styles from "../../styles/page.module.scss";
 import { fetchCatData, fetchCatDetails } from "../utils/api";
 import { useState, useEffect } from "react";
@@ -12,34 +12,38 @@ interface CatDetail {
   }[];
 }
 
-export default function AsideCats() {
+interface AsideCatsProps {
+  breed_ids: string;
+  onCatClick: (cat: CatDetail) => void;
+}
+
+export default function AsideCats({ breed_ids, onCatClick }: AsideCatsProps) {
   const [cats, setCats] = useState<CatDetail[]>([]);
 
   useEffect(() => {
     const getCats = async () => {
       try {
-        const catData = await fetchCatData();
-        console.log("Cat Data:", catData); // Add this line to debug
-        const catDetailsPromises = catData.map((cat: { id: string }) =>
-          fetchCatDetails(cat.id)
-        );
+        const catData = await fetchCatData(breed_ids);
+        const catDetailsPromises = catData.map(async (cat: { id: string }) => {
+          const details = await fetchCatDetails(cat.id);
+          return details ? (details as CatDetail) : null;
+        });
         const catDetails = await Promise.all(catDetailsPromises);
-        console.log("Cat Details:", catDetails); // Add this line to debug
-        setCats(catDetails as CatDetail[]);
+        setCats(catDetails.filter((cat): cat is CatDetail => cat !== null)); // Filter out null values
       } catch (error) {
         console.error("Error fetching cats:", error);
       }
     };
 
     getCats();
-  }, []);
+  }, [breed_ids]);
 
   return (
     <aside className={styles.sidebar}>
       <ul className={styles.grid}>
         {cats.slice(0, 5).map((cat) => (
           <li key={cat.id} className={styles.card}>
-            <a>
+            <a onClick={() => onCatClick(cat)}>
               <img
                 id={cat.id}
                 className={styles.imgFixed}
