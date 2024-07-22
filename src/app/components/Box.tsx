@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
 import styles from "../../styles/page.module.scss";
+import { CatDetail } from "../types/types";
 
 interface BoxProps {
   id: number;

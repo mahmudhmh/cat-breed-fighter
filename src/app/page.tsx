@@ -5,14 +5,15 @@ import Box from "./components/Box";
 import Header from "./components/Header";
 import Winner from "./components/Winner";
 import { useState } from "react";
+import { CatDetail } from "./types/types";
 
-interface CatDetail {
-  id: string;
-  url: string;
-  breeds: {
-    name: string;
-  }[];
-}
+// interface CatDetail {
+//   id: string;
+//   url: string;
+//   breeds: {
+//     name: string;
+//   }[];
+// }
 
 export default function Page() {
   const [box1Cat, setBox1Cat] = useState<CatDetail | null>(null);

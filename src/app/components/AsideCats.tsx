@@ -3,14 +3,15 @@
 import styles from "../../styles/page.module.scss";
 import { fetchCatData, fetchCatDetails } from "../utils/api";
 import { useState, useEffect } from "react";
+import { CatDetail } from "../types/types";
 
-interface CatDetail {
-  id: string;
-  url: string;
-  breeds: {
-    name: string;
-  }[];
-}
+// interface CatDetail {
+//   id: string;
+//   url: string;
+//   breeds: {
+//     name: string;
+//   }[];
+// }
 
 interface AsideCatsProps {
   breed_ids: string;
